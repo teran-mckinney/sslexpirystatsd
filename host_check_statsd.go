@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"gopkg.in/alexcesaro/statsd.v2"
 )
 
@@ -17,5 +19,18 @@ func hostCheckStatsd(host string) (secondsTillExpiry int, err error) {
 		return
 	}
 	s.Gauge("expiry."+host, secondsTillExpiry)
+	return
+}
+
+func hostCheckStatsdConfiguration(conf Configuration) (err error) {
+	for _, host := range conf.Hosts {
+		seconds, hostCheckError := hostCheckStatsd(host)
+		if hostCheckError == nil {
+			log.Printf("%s: %d seconds remaining.", host, seconds)
+		} else {
+			err = hostCheckError
+			log.Printf("Got error on %s: %s", host, hostCheckError.Error())
+		}
+	}
 	return
 }

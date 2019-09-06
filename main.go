@@ -15,6 +15,8 @@ func usage() {
 	fmt.Fprintln(os.Stderr, "Usage: sslexpirystatsd <command> [argument]")
 	fmt.Fprintln(os.Stderr, "Command: check <host:port> (Example: github.com:443)")
 	fmt.Fprintln(os.Stderr, "Command: checkstatsd <host:port> (Example: github.com:443)")
+	fmt.Fprintln(os.Stderr, "Command: checkstatsdconfiguration <configuration.json>")
+	fmt.Fprintln(os.Stderr, "Command: validate_configuration <configuration.json>")
 	os.Exit(2)
 }
 
@@ -46,6 +48,15 @@ func main() {
 		seconds, err := hostCheckStatsd(os.Args[2])
 		fatal_error(err)
 		fmt.Printf("%s expires in %d seconds.\n", os.Args[2], seconds)
+	case "checkstatsdconfiguration":
+		exactly_arguments(3)
+		conf, err := configuration(os.Args[2])
+		err = hostCheckStatsdConfiguration(conf)
+		fatal_error(err)
+	case "validate_configuration":
+		exactly_arguments(3)
+		_, err := configuration(os.Args[2])
+		fatal_error(err)
 	default:
 		usage()
 	}

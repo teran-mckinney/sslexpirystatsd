@@ -11,7 +11,7 @@ go test
 
 go build
 
-# strip -s decensor
+strip -s sslexpirystatsd
 
 cleanup() {
     echo "Cleaning up."
@@ -24,5 +24,8 @@ fail() {
     cleanup
     exit 1
 }
+
+./sslexpirystatsd validate_configuration samples/valid_configuration.json
+./sslexpirystatsd validate_configuration samples/invalid_configuration.json && fail "We thought an invalid configuration was valid."
 
 echo Success
