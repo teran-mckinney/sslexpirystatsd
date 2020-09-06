@@ -1,4 +1,4 @@
-module github.com/teran-mckinney/sslexpirystatsd
+module go-beyond.org/code/sslexpirystatsd
 
 go 1.12
 

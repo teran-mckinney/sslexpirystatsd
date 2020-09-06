@@ -2,7 +2,7 @@
 
 ## Install
 
- * `go get github.com/teran-mckinney/sslexpirystatsd`
+ * `go get go-beyond.org/code/sslexpirystatsd`
 
 ## Usage
 
